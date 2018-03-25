@@ -1,0 +1,20 @@
+---
+title: "Prep"
+author: "fk506cni"
+date: "2018年3月26日"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+```{r}
+install.packages("devtools",repos="http://cran.ism.ac.jp/")
+library("devtools")
+devtools::install_github("klutometis/roxygen")
+library(roxygen2)
+```
+
+```{r}
+create("uncoR")
+document()
+```
+
