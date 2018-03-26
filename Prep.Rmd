@@ -18,3 +18,9 @@ create("uncoR")
 document()
 ```
 
+
+```{r}
+require(devtools)
+install_github("fk506cni/uncoR")
+uncoR::hello()
+```
