@@ -14,6 +14,6 @@
 #   Test Package:              'Ctrl + Shift + T'
 
 hello <- function() {
-  print("Hello, world!")
-  print("this is unCo")
+  print("this is uncoR\n
+Uncontrolled fUnction COllection R\n")
 }
