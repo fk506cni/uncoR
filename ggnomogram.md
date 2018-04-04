@@ -2,8 +2,14 @@
 
 function make nomogram by ggplot2
 
+when model you want to draw nomogram about is like below...
 ![mode](https://github.com/fk506cni/uncoR/blob/master/texclip20180404211733.png)
 
+
+you can make nomogram by this funtion.
+
+this require model infomation as list.
+model_info should have several slot below.
 ~~~
 require(devtools)
 install_github("fk506cni/uncoR")
