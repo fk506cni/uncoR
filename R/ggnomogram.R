@@ -445,7 +445,6 @@ make_nomogram <- function(graph_info, vars_interval=7, add_p=NULL, lmat=NULL, lh
 
 
 #' @export
-#'
 ggnomogram <- function(model_info){
   graph_info <- graph_construct(model_info = model_info)
   g1 <- make_nomogram(graph_info = graph_info)
