@@ -1,14 +1,18 @@
-# plot nomogram from logistic regression modeling
+#' plot nomogram from logistic regression modeling
 # this not require sample data
 # this plot figure from model info
-
+#' @import ggplot2
+#' @import gridExtra
+#' @import grid
+#' @import magrittr
+#' @importFrom  extrafont loadfonts()
+#' @param model_info list of model info see example.
 
 which_near <- function(x, comp_vector=c(0.1,0.5,1,2,5,10,20,25,50,100,250,1e3,1e4,1e5,1e6,1e7,1e8)){
   sq2 <- (comp_vector - x)^2
   min_num <- comp_vector[sq2 == min(sq2)]
   return(min(min_num))
 }
-
 
 proper_interval <- function(start, end, divide=3){
   range_num <- end - start
@@ -92,7 +96,7 @@ graph_construct <- function(model_info, text_h =0.5){
   scale_max <- 100
 
   plot_ylim <- 3
-  plot_xlim <- 2
+  plot_xlim <- 1.2
 
   graph_info$point_major_ints <- proper_segment(start = scale_min, end = scale_max)
   graph_info$point_minor_ints <- proper_segment(start = scale_min, end = scale_max,divide = minor_divid)
@@ -168,17 +172,17 @@ graph_construct <- function(model_info, text_h =0.5){
   graph_info$total_score_ceil_rate <- graph_info$total_score_max / graph_info$total_score_max_ceil
 
   graph_info$score_major_int <- proper_segment(graph_info$total_score_min, graph_info$total_score_max_ceil)
-  graph_info$score_major_int_pos <- scale_max * graph_info$score_major_int * graph_info$total_score_ceil_rate /graph_info$total_score_max_ceil
+  graph_info$score_major_int_pos <- scale_max * graph_info$score_major_int  /graph_info$total_score_max_ceil
 
   graph_info$score_minor_int <- proper_segment(graph_info$total_score_min, graph_info$total_score_max_ceil,divide = minor_divid)
-  graph_info$score_minor_int_pos <- scale_max * graph_info$score_minor_int * graph_info$total_score_ceil_rate /graph_info$total_score_max_ceil
+  graph_info$score_minor_int_pos <- scale_max * graph_info$score_minor_int  /graph_info$total_score_max_ceil
 
   graph_info$linp <- logit(graph_info$plot_range) - graph_info$betas[1]
   graph_info$linp_pos <- (graph_info$linp - graph_info$total_effect_range[[1]])/graph_info$total_effect_length*  graph_info$y_scale$length*graph_info$total_score_ceil_rate
 
   #plot margin parameters
-  graph_info$score_xlim <- c(0 -plot_xlim, length(graph_info$var_name)*graph_info$interval +plot_xlim)
-  graph_info$pred_xlim <- c(0 -plot_xlim, 2*graph_info$interval +plot_xlim)
+  graph_info$score_xlim <- c(0 -plot_xlim, (length(graph_info$var_name)-1)*graph_info$interval +plot_xlim)
+  graph_info$pred_xlim <- c(0 -plot_xlim, 1*graph_info$interval +plot_xlim)
   graph_info$score_ylim <- c(scale_min -plot_ylim, scale_max+plot_ylim)
   graph_info$pred_ylim <- c(scale_min -plot_ylim, scale_max+plot_ylim)
 
@@ -224,15 +228,12 @@ add_str <- function(p, x, y_str,y_str_pos, str_w, side="R",str_size=4){
     text_hjust <- 1/2
   }
 
+
   for(i in 1:length(y_str)){
     df_i <- data.frame(x=x + side_w, y=y_str_pos[i], size=str_size, label=y_str[i], hjust=text_hjust)
     p <- p+geom_text(mapping = aes(x=x, y = y,size=size,label=label,hjust=hjust),data = df_i)
   }
-  return(p)
-}
 
-add_vline <- function(p, x, y, y_end){
-  p <- p+geom_segment(mapping = aes_string(x = x, xend=x, y = y, yend=y_end))
   return(p)
 }
 
@@ -290,7 +291,6 @@ make_pointpanel <- function(graph_info){
   pp <- pp +coord_flip()
   return(pp)
 }
-
 
 make_scorepanel <- function(graph_info){
   sp <- ggplot()+theme_ggh() +scale_x_reverse(limits= graph_info$pred_xlim[c(2,1)], expand=c(0,0))
@@ -373,11 +373,15 @@ offpanel <- function(p){
   return(pt)
 }
 
-make_nomogram <- function(graph_info, add_p=NULL, lmat=NULL, lhei=NULL, lwid=NULL, main="test_nomogram", text_h=1.5){
+make_nomogram <- function(graph_info, vars_interval=7, add_p=NULL, lmat=NULL, lhei=NULL, lwid=NULL,  text_h=1.5){
   require(ggplot2)
   require(gridExtra)
   require(grid)
   require(magrittr)
+  require(extrafont)
+  loadfonts(quiet = T)
+
+  main  <- graph_info$title
 
 
   blank_grid <- grid.rect(gp=gpar(col="white"))
@@ -422,8 +426,6 @@ make_nomogram <- function(graph_info, add_p=NULL, lmat=NULL, lhei=NULL, lwid=NUL
                   c(1,1,1,1))
     lwid <- c(0.001, 0.2, 1, 0.001)
     lhei <- c(0.3,8,0.01,5,0.001)
-
-
   }
   #print(lmat)
 
@@ -434,14 +436,28 @@ make_nomogram <- function(graph_info, add_p=NULL, lmat=NULL, lhei=NULL, lwid=NUL
                      score_l,#5
                      prep_l,#6
                      layout_matrix=lmat,heights=lhei, widths=lwid,
-                     top=textGrob(main, gp=gpar(fontsize=20,fontfamily="Arial")))
+                     top=textGrob(main, gp=gpar(fontsize=16,fontfamily="Arial")))
 
   result_list <- list(plot_data=g1)
   return(result_list)
 }
 
+
+
+#' @export
+#'
 ggnomogram <- function(model_info){
   graph_info <- graph_construct(model_info = model_info)
   g1 <- make_nomogram(graph_info = graph_info)
   return(g1$plot_data)
 }
+
+#' @export
+#'
+ggsave2 <- function(plot, wid=9, hei=9){
+  plot_name <- deparse(substitute(plot))
+  file_name <- paste(plot_name, ".tiff", sep = "",collapse = "")
+  ggsave(filename = file_name,plot = plot,device = "tiff",width = wid, height = hei,dpi = 300,units = "cm")
+}
+
+
