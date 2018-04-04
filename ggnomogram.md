@@ -16,7 +16,7 @@ model_info$plot_range <- c(0.1,0.2,0.5,0.8,0.975)
 
 gtest <- ggnomogram(model_info = model_info)
 
-ggsave2(gtest,wid = 18, hei = 18)
+ggsave2(gtest,wid = 18, hei = 18, device="png")
 ~~~
 
-![motive](https://github.com/fk506cni/uncoR/blob/master/gtest.tiff)
+![nomo](https://github.com/fk506cni/uncoR/blob/master/gtest.png)
