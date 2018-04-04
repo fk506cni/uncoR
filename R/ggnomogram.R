@@ -451,13 +451,3 @@ ggnomogram <- function(model_info){
   g1 <- make_nomogram(graph_info = graph_info)
   return(g1$plot_data)
 }
-
-#' @export
-#'
-ggsave2 <- function(plot, wid=9, hei=9){
-  plot_name <- deparse(substitute(plot))
-  file_name <- paste(plot_name, ".tiff", sep = "",collapse = "")
-  ggsave(filename = file_name,plot = plot,device = "tiff",width = wid, height = hei,dpi = 300,units = "cm")
-}
-
-
