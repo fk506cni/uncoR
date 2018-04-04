@@ -1,5 +1,9 @@
 ## ggnomogram
 
+function make nomogram by ggplot2
+
+![mode](https://github.com/fk506cni/uncoR/blob/master/CodeCogsEqn.png)
+
 ~~~
 require(devtools)
 install_github("fk506cni/uncoR")
