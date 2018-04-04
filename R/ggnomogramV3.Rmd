@@ -1,0 +1,12 @@
+---
+title: "ggnomogramV3"
+author: "fk506cni"
+date: "20180405"
+output: html_document
+---
+
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE,cache.lazy = FALSE, echo=TRUE)
+set.seed("114514")
+```
+
