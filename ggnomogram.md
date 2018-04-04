@@ -2,7 +2,7 @@
 
 function make nomogram by ggplot2
 
-![mode](https://github.com/fk506cni/uncoR/blob/master/CodeCogsEqn.png)
+![mode](https://github.com/fk506cni/uncoR/blob/master/texclip20180404211733.png)
 
 ~~~
 require(devtools)
