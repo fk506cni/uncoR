@@ -6,7 +6,7 @@ header-includes:
 date: "20180405"
 output: html_document
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 theme: null
 css: style.css
 ---
@@ -19,7 +19,7 @@ set.seed("114514")
 ```{r}
 require(devtools)
 install_github("fk506cni/uncoR")
-require("fk506cni/uncoR")
+require("uncoR")
 ```
 
 #model setup
@@ -34,8 +34,8 @@ Var_{1} \ is \ Platet(10^9/L) \\
 Var_{2} \ is \ Alubmin(g/dL) \\
 \beta_1 = 1\\
 \beta_2 =85\\
-0 \leq Var_1 \leq 500 \\
-1 \leq Var_2 \leq 5 \\
+100 \leq Var_1 \leq 300 \\
+2 \leq Var_2 \leq 4 \\
 
 \\
 \\
@@ -49,13 +49,15 @@ model_info$var_name <- c("'Plt '(10^9/L)","'Alb '(g/dL)")
 model_info$outoput_name <- "'ALPlat index'"
 model_info$betas <- c(1, 85)
 model_info$constant <- 0
-model_info$var_range <- list(Var1=c(0, 500), Var2=c(1, 5))
+model_info$var_range <- list(Var1=c(100, 300), Var2=c(2, 4))
 model_info$cutoff_val <- c(415, 455, 512)
 model_info$formula <- "'ALPlat index '==' Plt'(10^9/L) + 85%*%'Alb'(g/dL)"
 ```
 
 ```{r}
-uncoR::
+nomoV3 <- ggnomogramV3(model_info = model_info,main = "")
+ggsave2(nomoV3,wid =18, hei=18, device = "png")
 ```
+![mode](https://github.com/fk506cni/uncoR/blob/master/nomoV3.ping)
 
 

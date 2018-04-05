@@ -353,6 +353,7 @@ ggnomogramV3 <- function(model_info, add_p =NULL, lmat=NULL, lhei=NULL,lwid=NULL
                      layout_matrix=lmat,heights=lhei, widths=lwid,
                      top=textGrob(main, gp=gpar(fontsize=20,fontfamily="Arial")))
   result_list <- list(plot_data=g1)
-  return(result_list)
+  return(result_list$plot_data)
 }
+
 
