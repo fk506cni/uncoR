@@ -313,7 +313,7 @@ offpanel <- function(p){
   return(pt)
 }
 
-
+#' @export
 ggnomogramV3 <- function(model_info, add_p =NULL, lmat=NULL, lhei=NULL,lwid=NULL, main="unko"){
   require("magrittr")
   require("ggplot2")
