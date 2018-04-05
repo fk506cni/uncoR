@@ -1,12 +1,56 @@
 ---
 title: "ggnomogramV3"
 author: "fk506cni"
+header-includes:
+  - \usepackage[fleqn]{amsmath}
 date: "20180405"
 output: html_document
+editor_options: 
+  chunk_output_type: inline
 ---
 
 ```{r setup}
 knitr::opts_chunk$set(echo = TRUE, cache = TRUE,cache.lazy = FALSE, echo=TRUE)
 set.seed("114514")
 ```
+
+```{r}
+require(devtools)
+install_github("fk506cni/uncoR")
+require("fk506cni/uncoR")
+```
+
+#model setup
+
+if your model is like bellow, 
+
+
+$$
+Var_{sum} = \beta_{1}*Var_{1} + \beta_{2}*Var_{2} \\
+Var_{sum} \ is \  ALPlat\_index \\
+Var_{1} \ is \ Platet(10^9/L) \\
+Var_{2} \ is \ Alubmin(g/dL) \\
+\beta_1 = 1\\
+\beta_2 =85\\
+0 \leq Var_1 \leq 500 \\
+1 \leq Var_2 \leq 5 \\
+
+\\
+\\
+cutoff \ values\ in\ 415,\ 455,\ 512 
+$$
+
+```{r}
+model_info <- list()
+model_info$model_type <- "sum"
+model_info$var_name <- c("'Plt '(10^9/L)","'Alb '(g/dL)")
+model_info$outoput_name <- "'ALPlat index'"
+model_info$betas <- c(1, 85)
+model_info$constant <- 0
+model_info$var_range <- list(Var1=c(0, 500), Var2=c(1, 5))
+model_info$cutoff_val <- c(415, 455, 512)
+model_info$formula <- "'ALPlat index '==' Plt'(10^9/L) + 85%*%'Alb'(g/dL)"
+```
+
+
 
