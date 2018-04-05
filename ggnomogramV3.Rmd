@@ -58,6 +58,6 @@ model_info$formula <- "'ALPlat index '==' Plt'(10^9/L) + 85%*%'Alb'(g/dL)"
 nomoV3 <- ggnomogramV3(model_info = model_info,main = "")
 ggsave2(nomoV3,wid =18, hei=18, device = "png")
 ```
-![mode](https://github.com/fk506cni/uncoR/blob/master/nomoV3.ping)
+![mode](https://github.com/fk506cni/uncoR/blob/master/nomoV3.png)
 
 
